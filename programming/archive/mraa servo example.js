@@ -1,17 +1,18 @@
-/*jslint node:true, vars:true, bitwise:true, unparam:true */
-/*jshint unused:true */
-
-var mraa = require("mraa");
+var mraa = require('mraa');
 var servoModule = require("jsupm_servo");
-var servo = new servoModule.Servo(3);
-var angle=0;
 
-loopActivity();
+var servo = new servoModule.ES08A(3);
+var angle = 0;
+var step = 20;
 
-function loopActivity(){
-    servo.setAngle(angle);
-    angle+=10;
-    if (angle>160) angle=0;
-    
-    setTimeout(loopActivity,1000);
+periodicActivity();
+
+function periodicActivity(){
+servo.setAngle(angle);
+angle = angle + step;
+if(angle>step*2)
+step = -20;
+if(angle < 10)
+step = 20;
+setTimeout(periodicActivity,1000);
 }
